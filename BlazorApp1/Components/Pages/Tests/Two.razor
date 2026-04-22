@@ -1,0 +1,30 @@
+﻿@page "/tests/two"
+
+
+<div>
+    <h4>Test Two</h4>
+
+    <img src="/images/straw.jpg" class="rounded-circle" />
+    @foreach (var quote in quotes)
+    {
+        <div class="card card-body my-2 border border-info">
+            <p>@quote.Name</p>
+            <p>@quote.Author</p>
+            <div class="d-flex">
+                <a href="/tests/detail/@quote.QuoteId" class="btn btn-info mx-2 ">Detail</a>
+                <button @onclick=" () => Delete(quote.QuoteId)" type="button" class="btn btn-danger mx-2">Delete</button>
+            </div>
+        </div>
+    }
+</div>
+
+@code{
+
+    public List<Quote> quotes = QuoteRepo.AllQuotes();
+
+    public void Delete(int id)
+    {
+        QuoteRepo.DeleteQuote(id);
+        quotes = QuoteRepo.AllQuotes(); 
+    }
+}

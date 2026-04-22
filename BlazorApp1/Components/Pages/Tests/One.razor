@@ -1,6 +1,7 @@
 ﻿@page "/tests/one"
+@using BlazorApp1.Models
 
-<div>
+<div data-name="test/one" data-status ="@tests[0]">
     <h3>Test</h3>
     @foreach (var str in tests)
     {
@@ -12,8 +13,30 @@
         <Card />
         <Button/>
     </div>
+
+    @foreach (var quote in quotes)
+    {
+        <div>
+            <p>@quote.Name</p>
+            <p>@quote.Author</p>
+        </div>
+    }
+
+    <div class="@(false ? "text-success":"text-danger")">
+        @(false ? "is true":"is false")
+    </div>
 </div>
 
 @code {
-    List<string> tests = ["One", "Two", "Three"];
+
+    private List<string> tests = ["One", "Two", "Three"];
+
+    private List<Quote> quotes = [
+        new Quote{Name = "Quote One" ,Author ="Chan"},
+        new Quote{Name = "Quote Two",Author = "Susu"},
+        new Quote{Name = "Quote Three",Author = "Koko"},
+    ];
+
+
+
 }
