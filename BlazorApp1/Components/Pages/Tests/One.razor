@@ -1,0 +1,19 @@
+﻿@page "/tests/one"
+
+<div>
+    <h3>Test</h3>
+    @foreach (var str in tests)
+    {
+        <p>@str</p>
+    }
+
+    <div class="d-flex justify-content-between align-items-center">
+        <Card />
+        <Card />
+        <Button/>
+    </div>
+</div>
+
+@code {
+    List<string> tests = ["One", "Two", "Three"];
+}

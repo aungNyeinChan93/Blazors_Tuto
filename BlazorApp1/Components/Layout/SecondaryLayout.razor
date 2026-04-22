@@ -1,0 +1,47 @@
+﻿@inherits LayoutComponentBase
+
+<div class="secondary-layout">
+    <header class="header-bar">
+        <h1>Secondary Layout</h1>
+        <nav>
+            <a href="/">Home</a> |
+            <a href="/about">About</a> |
+            <a href="/contact">Contact</a>
+        </nav>
+    </header>
+
+    <section class="main-content">
+        @Body
+    </section>
+
+    <footer class="footer-bar">
+        <p>&copy; 2026 - My Blazor App</p>
+    </footer>
+</div>
+
+<style>
+    .secondary-layout {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .header-bar {
+        background-color: #2c3e50;
+        color: white;
+        padding: 1rem;
+    }
+
+    .main-content {
+        flex: 1;
+        padding: 1.5rem;
+        background-color: #f9f9f9;
+    }
+
+    .footer-bar {
+        background-color: #2c3e50;
+        color: white;
+        text-align: center;
+        padding: 0.5rem;
+    }
+</style>
