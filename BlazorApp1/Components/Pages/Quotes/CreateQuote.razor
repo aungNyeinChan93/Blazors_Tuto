@@ -1,0 +1,39 @@
+﻿@page "/quotes/create"
+
+
+<div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <h4 class="text-primary">Create Quote</h4>
+            <EditForm Model="quote" FormName="formQuoteCreate" OnSubmit="CreateSubmit" class="border border-info p-4 rounded">
+                <div class="my-2">
+                    <label for="Name" class="form-label text-success">Name</label>
+                    <InputText id="Name" class="form-control" @bind-Value="quote!.Name">Name</InputText>
+                </div>
+                <div class="my-2">
+                    <label for="Author" class="form-label text-success">Author</label>
+                    <InputText class="form-control " @bind-Value="quote!.Author">Author</InputText>
+                </div>
+                <div class="my-2">
+                    <button type="submit" class="btn btn-outline-primary w-25 mt-3">Edit </button>
+                    <a href="/quotes/index" class="btn btn-outline-secondary w-25 mt-3">Back </a>
+                </div>
+
+                <InputNumber hidden @bind-Value="quote!.QuoteId" />
+                    
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [SupplyParameterFromForm(FormName = "formQuoteCreate")]
+    public Quote? quote { get; set; } 
+
+    private void CreateSubmit()
+    {
+        
+    }
+}

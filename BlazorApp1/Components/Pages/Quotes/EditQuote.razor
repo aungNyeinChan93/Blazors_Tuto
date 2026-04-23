@@ -1,0 +1,64 @@
+﻿@page "/quotes/edit/{id:int}"
+
+
+<div class="mx-auto container" style="border-radius:10px; padding:10px">
+    
+
+    @if (quote is not null)
+    {
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6"> 
+                <h4 class="text-primary">Edit Quote</h4>
+                <EditForm Model="quote" FormName="formQuoteUpdate" OnValidSubmit="SubmitUpdate" class="border border-info p-4 rounded">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <ValidationSummary></ValidationSummary>
+                    <div class="my-2">
+                        <label for="Name" class="form-label text-success">Name</label>
+                        <InputText id="Name" class="form-control" @bind-Value="quote.Name">Name</InputText>
+                        <span>
+                            <ValidationMessage For="()=>quote.Name"></ValidationMessage>
+                        </span>
+                    </div>
+                    <div class="my-2">
+                        <label for="Author" class="form-label text-success">Author</label>
+                        <InputText class="form-control " @bind-Value="quote.Author">Author</InputText>
+                        <span>
+                            <ValidationMessage For="() => quote.Author"></ValidationMessage>
+                        </span>
+                    </div>
+                    <div class="my-2">
+                        <button type="submit" class="btn btn-outline-primary w-25 mt-3">Edit </button>
+                        <a href="/quotes/index" class="btn btn-outline-secondary w-25 mt-3">Back </a>
+                    </div>
+
+                    <InputNumber hidden @bind-Value="quote.QuoteId"/>
+                    
+                </EditForm>
+            </div>
+        </div>
+    }
+    
+
+</div>
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [SupplyParameterFromForm(FormName = "formQuoteUpdate")]
+    private Quote? quote { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        quote ??= QuoteRepo.GetById(this.Id);
+    }
+
+    private void SubmitUpdate()
+    {
+       var result =  QuoteRepo.UpdateQuote(quote!);
+       // TODO need to redirect
+    }
+}

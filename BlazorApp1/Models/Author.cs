@@ -2,15 +2,14 @@
 
 namespace BlazorApp1.Models
 {
-    public class Quote
+    public class Author
     {
-        public int QuoteId { get; set; }
+        public int AuthorId { get; set; }
 
         [Required]
         public required string Name { get; set; }
 
-        [Required]
-        public required string Author { get; set; }
+        public List<Todo>? Todos { get; set; }
 
     }
 }

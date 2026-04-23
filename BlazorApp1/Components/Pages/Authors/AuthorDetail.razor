@@ -1,0 +1,32 @@
+﻿@page "/authors/detail/{id:int}"
+
+
+@if (author is not null)
+{
+    <div class="mx-auto container">
+        <div class="card">
+            <div class="card-header">
+                @(author.Name)
+            </div>
+            <div class="card-body">
+                <a href="/authors" class="btn btn-primary">Go Back</a>
+                <a href="/authors/edit/@author.AuthorId" class="btn btn-secondary">Edit</a>
+            </div>
+        </div>
+    </div>
+}
+
+@code{
+    [Parameter]
+    public int Id { get; set; }
+
+    public Author? author { get; set; }
+
+    [Inject]
+    public AuthorService authorService { get; set; } = default!;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        author ??= await authorService.GetOneAsync(Id);
+    }
+}

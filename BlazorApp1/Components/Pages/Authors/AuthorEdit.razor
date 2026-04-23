@@ -1,0 +1,50 @@
+﻿@page "/authors/edit/{id:int}"
+
+
+@if (author is not null)
+{  
+    <div class="col-6">
+        <h4 class="text-primary">Edit Author</h4>
+        <EditForm Model="author" FormName="EditAuthor" class="border border-info p-4 rounded" OnValidSubmit="UpdateSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <ValidationSummary></ValidationSummary>
+        
+            <div class="my-2">
+                <label for="Name" class="form-label text-success">Name</label>
+                <InputText id="Name" class="form-control" @bind-Value="author.Name">Name</InputText>
+                <ValidationMessage For="()=>author.Name"></ValidationMessage>
+            </div>
+       
+            <div class="my-2">
+                <button type="submit" class="btn btn-outline-primary w-25 mt-3">Edit </button>
+                <a href="/authors" class="btn btn-outline-secondary w-25 mt-3">Back </a>
+            </div>
+
+            <InputNumber @bind-Value="author.AuthorId" hidden />
+        
+        </EditForm>
+    </div>
+}
+
+@code{
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [SupplyParameterFromForm(FormName = "EditAuthor")]
+    public Author? author { get; set; }
+
+    [Inject]
+    public AuthorService authorService { get; set; } = default!;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // return base.OnParametersSetAsync
+        author ??= await authorService.GetOneAsync(this.Id);
+    }
+
+    private async Task UpdateSubmit()
+    {
+       var result =  await authorService.UpdateAsync(author!.AuthorId,author);
+    }
+}

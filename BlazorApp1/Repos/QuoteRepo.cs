@@ -34,5 +34,25 @@ namespace BlazorApp1.Repos
              _quotes.Remove(quote!);
             
         }
+
+        public static bool UpdateQuote(Quote quote)
+        {
+            var index = _quotes.FindIndex(q => q.QuoteId == quote.QuoteId);
+
+            if (index == -1)
+            {
+                return false;
+            }
+
+            _quotes[index].Name = quote.Name;
+            _quotes[index].Author = quote.Author;
+
+            return true; 
+        }
+
+        public static int MaxId()
+        {
+            return _quotes.Max(q => q.QuoteId);
+        }
     }
 }
