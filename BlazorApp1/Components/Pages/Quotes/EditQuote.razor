@@ -1,9 +1,9 @@
 ﻿@page "/quotes/edit/{id:int}"
 
+@* @inject NavigationManager NavigationManager *@
+
 
 <div class="mx-auto container" style="border-radius:10px; padding:10px">
-    
-
     @if (quote is not null)
     {
         <div class="row">
@@ -45,6 +45,7 @@
 
 
 @code {
+
     [Parameter]
     public int Id { get; set; }
 
@@ -56,9 +57,12 @@
         quote ??= QuoteRepo.GetById(this.Id);
     }
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = default!;
+
     private void SubmitUpdate()
     {
-       var result =  QuoteRepo.UpdateQuote(quote!);
-       // TODO need to redirect
+        var result =  QuoteRepo.UpdateQuote(quote!);
+        NavigationManager.NavigateTo("/quotes/index");
     }
 }

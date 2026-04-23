@@ -39,7 +39,6 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        // return base.OnParametersSetAsync
         author ??= await authorService.GetOneAsync(this.Id);
     }
 
