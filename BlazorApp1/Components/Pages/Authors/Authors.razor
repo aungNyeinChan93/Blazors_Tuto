@@ -17,10 +17,14 @@
             {
                 <li class="list-group-item d-flex justify-content-between">
                     <a href="/authors/detail/@author.AuthorId" class=" btn btn-link">@author.Name</a>
-                    <EditForm OnValidSubmit=" () => DeleteAuthor(author.AuthorId)"
-                        Model="author" FormName="@($"delete-author-{author.AuthorId}")">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </EditForm>
+                    <div class="d-flex mx-1">
+                        <a href="/authors/@author.AuthorId/todos" class=" btn btn-link">Todos</a>
+                        
+                        <EditForm OnValidSubmit=" () => DeleteAuthor(author.AuthorId)"
+                            Model="author" FormName="@($"delete-author-{author.AuthorId}")">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </EditForm>
+                    </div>
                 </li>
                 
             }

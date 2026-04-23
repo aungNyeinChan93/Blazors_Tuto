@@ -1,0 +1,36 @@
+﻿@inject NavigationManager NavigationManager;
+
+
+<EditForm Enhance="true" Model="todo" FormName="@($"form-test")" OnSubmit="ChangeStatus">
+    <InputText @bind-Value="todo!.Title" hidden />
+    <InputCheckbox @bind-Value="todo.IsStatus" hidden />
+    <div class="@(!todo!.IsStatus ? "bg-danger":"bg-success") card my-2">
+        <h5 class="card-header">@todo!.Title</h5>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <button  type="submit" class="btn btn-primary">Change Status</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm(FormName ="form-test")]
+    public Todo? todo { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        // base.OnParametersSet();
+        todo ??= new Todo { Title = "test title", IsStatus = false };
+    }
+
+
+    public void ChangeStatus()
+    {
+        if (todo is not null)
+        {
+            todo.IsStatus = !todo.IsStatus;
+            // NavigationManager.Refresh();
+        }
+    }
+}
