@@ -1,12 +1,27 @@
 ﻿@page "/todos"
+@rendermode InteractiveServer
 @attribute [StreamRendering]
-
+@using BlazorApp1.Components.Pages.Todos.components
 @inject TodoService TodoService;
-@inject NavigationManager NavigationManager;
+@inject NavigationManager NavigationManager
+@inject AuthorService AuthorService;
 
 <div class="mx-auto container">
+    
     <div>
+
         <a href="/todos/create" class="btn btn-primary p-2 my-2">Create</a>
+
+        @if (authors is not null)
+        {
+            <div class="d-flex mt-4"> 
+
+                <button class="badge text-bg-info mx-4 p-2 text-xl" type="button">
+                    <span @onclick="()=>ShowAll()" class="">All</span>
+                </button>
+                <AuthorListsComponent authors="authors" SelectTodo="ShowTodoById" />
+            </div>
+        }
     </div>
     @if (todos is null)
     {
@@ -14,7 +29,7 @@
     }
     else
     {
-        <div class="row">
+        <div class="row mt-4">
             @foreach (var todo in todos)
             {
                 <div class="card my-2 p-2 col-4 g-1">
@@ -39,10 +54,13 @@
 
     public List<Todo> todos { get; set; } = null!;
 
+    public List<Author> authors { get; set; } = default!;
+
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(200);
         todos =await TodoService.GetAllAsync() ?? new List<Todo>();
+        authors = await AuthorService.GetAllAsync() ?? new List<Author>();
     }
 
     private async Task DeleteSubmit(int id)
@@ -53,4 +71,21 @@
             NavigationManager.Refresh();            
         }
     }
+
+    private async Task ShowTodoById(int id)
+    {
+        var author = await AuthorService.GetOneAsync(id); 
+        if (author is not null && author.Todos is not null)
+        {
+            todos = author.Todos;
+        }
+    }
+
+    private async Task ShowAll()
+    {
+        todos = await TodoService.GetAllAsync() ?? new List<Todo>();
+        NavigationManager.Refresh();
+    }
+
+    
 }

@@ -1,0 +1,30 @@
+﻿@rendermode InteractiveServer
+
+<div>
+  
+    @if (authors is not null)
+    {
+        @foreach (var author in authors)
+        {
+            <button class="badge text-bg-info mx-4 p-2 text-xl" type="button" 
+                @onclick="() => ShowTodo(author.AuthorId)">
+                <span class="">@author.Name</span>
+            </button>
+        }
+    }
+</div>
+
+
+@code {
+
+    [Parameter]
+    public List<Author> authors { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<int> SelectTodo { get; set; }
+
+    private async Task ShowTodo(int id)
+    {
+        await SelectTodo.InvokeAsync(id);
+    }
+}
