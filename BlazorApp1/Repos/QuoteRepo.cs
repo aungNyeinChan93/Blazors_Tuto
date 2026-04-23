@@ -31,9 +31,9 @@ namespace BlazorApp1.Repos
         public static void DeleteQuote(int id)
         {
             var quote = _quotes.FirstOrDefault(q=>q.QuoteId == id);
-             _quotes.Remove(quote!);
+            _quotes.Remove(quote!);
             
-        }
+        }   
 
         public static bool UpdateQuote(Quote quote)
         {

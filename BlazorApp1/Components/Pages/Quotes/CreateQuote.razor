@@ -39,7 +39,7 @@
     {
         if (quote is not null)
         {
-            quote.QuoteId = QuoteRepo.MaxId() +1;
+            quote.QuoteId = QuoteRepo.MaxId() + 1 ;
             QuoteRepo.AddQuote(quote);
             NavigationManager.NavigateTo("/quotes/index");
         }
