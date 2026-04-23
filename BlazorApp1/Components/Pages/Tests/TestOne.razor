@@ -1,0 +1,27 @@
+﻿@page "/tests/1";
+
+
+@rendermode InteractiveServer
+
+
+<div>
+    <TodoCardTwo/>
+
+    <div class="alert @(isSuccess ? "alert-success":"alert-danger")" role="alert">
+        <button class="btn btn-outline-dark" type="button" @onclick="ChangeState">
+            A simple primary alert—check it out!
+        </button>
+    </div>
+
+</div>
+
+@code{
+    public bool isSuccess { get; set; } = false;
+
+    private void ChangeState()
+    {
+        this.isSuccess = !isSuccess;
+    }
+}
+
+

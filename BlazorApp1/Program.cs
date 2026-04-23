@@ -12,11 +12,11 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 });
 
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
-builder.Services.AddValidation();
+builder.Services.AddValidation(); 
 builder.Services.AddScoped<AuthorService>();
 builder.Services.AddScoped<TodoService>();
 
-var app = builder.Build();
+var app = builder.Build();  
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
