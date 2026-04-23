@@ -14,6 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.AddRazorComponents();
 builder.Services.AddValidation();
 builder.Services.AddScoped<AuthorService>();
+builder.Services.AddScoped<TodoService>();
 
 var app = builder.Build();
 

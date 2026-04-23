@@ -1,0 +1,56 @@
+﻿@page "/todos"
+@attribute [StreamRendering]
+
+@inject TodoService TodoService;
+@inject NavigationManager NavigationManager;
+
+<div class="mx-auto container">
+    <div>
+        <a href="/todos/create" class="btn btn-primary p-2 my-2">Create</a>
+    </div>
+    @if (todos is null)
+    {
+        <p class="text-danger text-xxl-center">Loading ... </p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var todo in todos)
+            {
+                <div class="card my-2 p-2 col-4 g-1">
+                    <h5 class="card-header">@todo.Author?.Name</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">@todo.Title</h5>
+                        <div  class="d-flex ">
+                            <a href="/todos/edit/@todo.TodoId" class="btn btn-primary me-2">Edit</a>
+                            <EditForm Model="todo" FormName="@($"todo-delete-{todo.TodoId}")"
+                                      OnValidSubmit=" ()=>DeleteSubmit(todo.TodoId)">
+                                <button type="submit" class="btn btn-danger me-2 ">Delete</button>
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code{
+
+    public List<Todo> todos { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(200);
+        todos =await TodoService.GetAllAsync() ?? new List<Todo>();
+    }
+
+    private async Task DeleteSubmit(int id)
+    {
+        var res = await TodoService.DeleteAsync(id);
+        if (res)
+        {
+            NavigationManager.Refresh();            
+        }
+    }
+}

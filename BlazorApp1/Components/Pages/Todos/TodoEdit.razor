@@ -1,0 +1,76 @@
+﻿@page "/todos/edit/{id:int}"
+
+
+@inject TodoService TodoService;
+@inject AuthorService AuthorService;
+@inject NavigationManager NavigationManager;
+
+<div>
+    <h3>TodoEdit</h3>
+
+    @if (todo is not null && authors is not null)
+    {
+        <div>
+            <h3>TodoCreate</h3>
+            <EditForm Model="todo" FormName="TodoUpdate" OnValidSubmit="UpdateTodoSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="mb-3">
+                    <label for="Title" class="form-label">Title</label>
+                    <InputText @bind-Value="todo.Title" class="form-control" id="Title" />
+                </div>
+                <div class="mb-3">
+                    <label for="authorId" class="form-label">Author</label>
+                    <InputSelect @bind-Value="todo.AuthorId" id="authorId" class="form-select">
+                        <option value="">-- Select Author --</option>
+                        @foreach (var author in authors)
+                        {
+                            <option value="@author.AuthorId">
+                                @author.Name
+                            </option>
+                        }
+                    </InputSelect>
+                </div>
+
+                <InputNumber @bind-Value="todo.TodoId" hidden />
+                <div class=" mb-3">
+                    <button type="submit" class=" btn btn-primary">Create</button>
+                </div>
+            </EditForm>
+
+        </div>
+    }
+
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [SupplyParameterFromForm(FormName = "TodoUpdate")]
+    public Todo? todo { get; set; }
+
+    public List<Author>? authors { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        todo ??=await TodoService.GetOneAsync(this.Id);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        authors = await AuthorService.GetAllAsync();
+    }
+
+    private async Task UpdateTodoSubmit()
+    {
+        if (todo is not null)
+        {
+            var result = await TodoService.UpdateAsync(todo.TodoId,todo);
+            if (result)
+            {
+                NavigationManager.NavigateTo("/todos");
+            }
+        }
+    }
+}

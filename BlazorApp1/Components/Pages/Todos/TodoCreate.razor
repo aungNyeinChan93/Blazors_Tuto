@@ -1,0 +1,62 @@
+﻿@page "/todos/create"
+
+
+@inject AuthorService AuthorService;
+@inject TodoService TodoService;
+@inject NavigationManager NavigationManager;
+
+@if (todo is not null && authors is not null)
+{
+    <div>
+        <h3>TodoCreate</h3>
+        <EditForm Model="todo" FormName="TodoCreate" OnValidSubmit="CreateTodoSubmit">
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <div class="mb-3">
+                <label for="Title" class="form-label">Title</label>
+                <InputText @bind-Value="todo.Title" class="form-control" id="Title" />
+            </div>
+            <div class="mb-3">
+                <label for="authorId" class="form-label">Author</label>
+                <InputSelect @bind-Value="todo.AuthorId" id="authorId" class="form-select">
+                    <option value="">-- Select Author --</option>
+                     @foreach (var author in authors)
+                    {
+                        <option value="@author.AuthorId">
+                            @author.Name
+                        </option>
+                    }
+                </InputSelect>
+            </div>
+            <div class=" mb-3">
+                <button type="submit" class=" btn btn-primary">Create</button>
+            </div>
+        </EditForm>
+
+    </div>
+}
+
+
+@code {
+
+    [SupplyParameterFromForm(FormName = "TodoCreate")]
+    public Todo todo { get; set; } = new Todo(){Title= ""};
+
+    public List<Author>? authors { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authors =await AuthorService.GetAllAsync();
+    }
+
+
+    private async Task CreateTodoSubmit()
+    {
+        var res = await TodoService.CreateAsync(todo);
+        if (res)
+        {
+            NavigationManager.NavigateTo("/todos");
+        }
+    }
+
+}
