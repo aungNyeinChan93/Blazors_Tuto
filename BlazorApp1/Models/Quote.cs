@@ -4,6 +4,7 @@ namespace BlazorApp1.Models
 {
     public class Quote
     {
+
         public int QuoteId { get; set; }
 
         [Required]
