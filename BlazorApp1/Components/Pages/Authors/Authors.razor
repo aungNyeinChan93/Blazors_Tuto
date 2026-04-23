@@ -44,7 +44,7 @@
         var res = await AuthorService.DeleteAsync(id);
         if (res)
         {
-            NavigationManager.NavigateTo("/authors");
+            NavigationManager.Refresh();
         }
     }
 
