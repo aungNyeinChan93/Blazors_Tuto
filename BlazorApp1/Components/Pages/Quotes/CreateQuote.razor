@@ -1,12 +1,15 @@
 ﻿@page "/quotes/create"
 
+@inject NavigationManager NavigationManager;
 
 <div>
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6">
             <h4 class="text-primary">Create Quote</h4>
-            <EditForm Model="quote" FormName="formQuoteCreate" OnSubmit="CreateSubmit" class="border border-info p-4 rounded">
+            <EditForm Model="quote" FormName="formQuoteCreate" OnValidSubmit="CreateSubmit" class="border border-info p-4 rounded">
+                <DataAnnotationsValidator/>
+                <ValidationSummary/>
                 <div class="my-2">
                     <label for="Name" class="form-label text-success">Name</label>
                     <InputText id="Name" class="form-control" @bind-Value="quote!.Name">Name</InputText>
@@ -16,7 +19,7 @@
                     <InputText class="form-control " @bind-Value="quote!.Author">Author</InputText>
                 </div>
                 <div class="my-2">
-                    <button type="submit" class="btn btn-outline-primary w-25 mt-3">Edit </button>
+                    <button type="submit" class="btn btn-outline-primary w-25 mt-3"> Create </button>
                     <a href="/quotes/index" class="btn btn-outline-secondary w-25 mt-3">Back </a>
                 </div>
 
@@ -30,10 +33,15 @@
 
 @code {
     [SupplyParameterFromForm(FormName = "formQuoteCreate")]
-    public Quote? quote { get; set; } 
+    public Quote? quote { get; set; } = new Quote(){Name = "",Author=""};
 
     private void CreateSubmit()
     {
-        
+        if (quote is not null)
+        {
+            quote.QuoteId = QuoteRepo.MaxId() +1;
+            QuoteRepo.AddQuote(quote);
+            NavigationManager.NavigateTo("/quotes/index");
+        }
     }
 }

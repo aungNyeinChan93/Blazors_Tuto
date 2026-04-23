@@ -1,5 +1,7 @@
 ﻿@page "/authors"
 
+@inject AuthorService AuthorService;
+
 <h3>Authors</h3>
 
 @if (authors is not null)
@@ -18,14 +20,14 @@
 }
 
 @code {
-    [Inject]
-    private AuthorService authService { get; set; } = default!;
+    // [Inject]
+    // private AuthorService authService { get; set; } = default!;
 
     private List<Author>? authors { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        authors ??= await authService.GetAllAsync();
+        authors ??= await AuthorService.GetAllAsync();
     }
 
 

@@ -1,5 +1,6 @@
 ﻿@page "/authors/edit/{id:int}"
 
+@inject NavigationManager NavigationManager;
 
 @if (author is not null)
 {  
@@ -38,12 +39,16 @@
     public AuthorService authorService { get; set; } = default!;
 
     protected override async Task OnParametersSetAsync()
-    {
+    { 
         author ??= await authorService.GetOneAsync(this.Id);
     }
 
     private async Task UpdateSubmit()
     {
-       var result =  await authorService.UpdateAsync(author!.AuthorId,author);
+        var result =  await authorService.UpdateAsync(author!.AuthorId,author);
+        if (result)
+        {
+            NavigationManager.NavigateTo("/authors");
+        }
     }
 }
