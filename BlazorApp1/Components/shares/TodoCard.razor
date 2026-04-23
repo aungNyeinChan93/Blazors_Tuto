@@ -20,7 +20,6 @@
 
     protected override void OnParametersSet()
     {
-        // base.OnParametersSet();
         todo ??= new Todo { Title = "test title", IsStatus = false };
     }
 
@@ -30,7 +29,6 @@
         if (todo is not null)
         {
             todo.IsStatus = !todo.IsStatus;
-            // NavigationManager.Refresh();
         }
     }
 }
