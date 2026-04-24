@@ -6,7 +6,7 @@
     {
         @foreach (var author in authors)
         {
-            <button class="badge text-bg-info mx-4 p-2 text-xxl-center @(selectId == author.AuthorId ? "bg-danger":"")" type="button" 
+            <button class="badge text-bg-info mx-4 p-2 text-xxl-center @(selectId == author.AuthorId ? "bg-warning":"")" type="button" 
                 @onclick="() => ShowTodo(author.AuthorId)">
                 <span class="">@author.Name</span>
             </button>

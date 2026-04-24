@@ -39,22 +39,21 @@
     else
     {
         <div class="row mt-4">
-            @foreach (var todo in todos)
-            {
-                <div class="card my-2 p-2 col-4 g-1">
-                    <h5 class="card-header">@todo.Author?.Name</h5>
-                    <div class="card-body">
-                        <h5 class="card-title">@todo.Title</h5>
-                        <div  class="d-flex ">
-                            <a href="/todos/edit/@todo.TodoId" class="btn btn-primary me-2">Edit</a>
-                            @* <EditForm Model="todo" FormName="@($"todo-delete-{todo.TodoId}")"
-                                      OnValidSubmit=" ()=>DeleteSubmit(todo.TodoId)">
-                            </EditForm> *@
-                                <button @onclick="()=>DeleteSubmit(todo.TodoId)" type="button" class="btn btn-danger me-2 ">Delete</button>
+            <Virtualize Items="todos" Context="todo">
+                    <div @key="todo.TodoId" class="card my-2 p-2 col-4 g-1">
+                        <h5 class="card-header">@todo.Author?.Name</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">@todo.Title</h5>
+                            <div  class="d-flex ">
+                                <a href="/todos/edit/@todo.TodoId" class="btn btn-primary me-2">Edit</a>
+                                @* <EditForm Model="todo" FormName="@($"todo-delete-{todo.TodoId}")"
+                                          OnValidSubmit=" ()=>DeleteSubmit(todo.TodoId)">
+                                </EditForm> *@
+                                    <button @onclick="()=>DeleteSubmit(todo.TodoId)" type="button" class="btn btn-danger me-2 ">Delete</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+            </Virtualize>
         </div>
     }
 </div>
@@ -67,7 +66,7 @@
 
     public int selectAuthorId { get; set; }
 
-    public string? searchTitle { get; set; }
+    public string? searchTitle { get; set; } 
 
     protected override async Task OnInitializedAsync()
     {
@@ -121,6 +120,8 @@
             selectAuthorId = 0;
 
             todos = await TodoService.GetAllAsync() ?? new List<Todo>();
+
+            // todos.Insert(,);
         }
     }
 
