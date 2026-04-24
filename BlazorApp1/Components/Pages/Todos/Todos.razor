@@ -47,10 +47,10 @@
                         <h5 class="card-title">@todo.Title</h5>
                         <div  class="d-flex ">
                             <a href="/todos/edit/@todo.TodoId" class="btn btn-primary me-2">Edit</a>
-                            <EditForm Model="todo" FormName="@($"todo-delete-{todo.TodoId}")"
+                            @* <EditForm Model="todo" FormName="@($"todo-delete-{todo.TodoId}")"
                                       OnValidSubmit=" ()=>DeleteSubmit(todo.TodoId)">
-                                <button type="submit" class="btn btn-danger me-2 ">Delete</button>
-                            </EditForm>
+                            </EditForm> *@
+                                <button @onclick="()=>DeleteSubmit(todo.TodoId)" type="submit" class="btn btn-danger me-2 ">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
 </div>
 
 @code{
-
+    [SupplyParameterFromForm]
     public List<Todo> todos { get; set; } = null!;
 
     public List<Author> authors { get; set; } = default!;
@@ -81,7 +81,9 @@
         var res = await TodoService.DeleteAsync(id);
         if (res)
         {
-            NavigationManager.Refresh();            
+            // NavigationManager.Refresh();    
+            todos = await TodoService.GetAllAsync() ?? new List<Todo>();
+            selectAuthorId = 0;
         }
     }
 

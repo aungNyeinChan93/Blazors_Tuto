@@ -70,10 +70,10 @@ namespace BlazorApp1.Services
             return res >= 1 ? true : false;
         }
 
-        public async Task<List<Todo>?> GetTodosByName(string name)
+        public async Task<List<Todo>?> GetTodosByName(string name) 
         {
             var todos = await _context.Todos.AsNoTracking()
-                .Where(t => EF.Functions.Like(t.Title,$"%{name}%"))
+                .Where(t     => EF.Functions.Like(t.Title,$"%{name}%") )
                 .ToListAsync();
             return todos;
         }
