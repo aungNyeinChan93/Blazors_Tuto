@@ -109,12 +109,15 @@
 
     private async Task SearchTodobyName()
     {
+        selectAuthorId = -1;
         if (!string.IsNullOrEmpty(searchTitle))
         {
             todos =await TodoService.GetTodosByName(searchTitle) ?? todos;
         }
         else
         {
+            selectAuthorId = 0;
+
             todos = await TodoService.GetAllAsync() ?? new List<Todo>();
         }
     }
