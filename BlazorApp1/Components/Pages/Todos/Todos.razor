@@ -8,15 +8,23 @@
 @inject AuthorService AuthorService;
 
 <div class="mx-auto container">
+
+    <div class="row my-2">
+        <div class="col-6 d-flex">
+            <input type="text" placeholder=" Enter Search" class="form-control"
+                @onchange="HandleTodoFilter"
+            />
+            <button
+                type="button" class=" btn btn-primary ms-2" @onclick="SearchTodobyName"> Search</button>
+        </div>
+    </div>
     
     <div>
-
         <a href="/todos/create" class="btn btn-primary p-2 my-2">Create</a>
 
         @if (authors is not null)
         {
             <div class="d-flex mt-4"> 
-
                 <button class="badge text-bg-info mx-4 p-2 text-xxl-center @(selectAuthorId == 0 ? "bg-danger":"") " type="button">
                     <span @onclick="()=>ShowAll()" class="">All</span>
                 </button>
@@ -59,6 +67,8 @@
 
     public int selectAuthorId { get; set; }
 
+    public string? searchTitle { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(200);
@@ -92,5 +102,21 @@
         NavigationManager.Refresh();
     }
 
-    
+    public void HandleTodoFilter(ChangeEventArgs args)
+    {
+        searchTitle = args.Value?.ToString() ?? string.Empty;
+    }
+
+    private async Task SearchTodobyName()
+    {
+        if (!string.IsNullOrEmpty(searchTitle))
+        {
+            todos =await TodoService.GetTodosByName(searchTitle) ?? todos;
+        }
+        else
+        {
+            todos = await TodoService.GetAllAsync() ?? new List<Todo>();
+        }
+    }
+
 }
