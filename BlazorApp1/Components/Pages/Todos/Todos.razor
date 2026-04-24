@@ -11,8 +11,8 @@
 
     <div class="row my-2">
         <div class="col-6 d-flex">
-            <input type="text" placeholder=" Enter Search" class="form-control"
-                @onchange="HandleTodoFilter"
+            <input @bind-value="searchTitle"
+                type="text" placeholder=" Enter Search" class="form-control"
             />
             <button
                 type="button" class=" btn btn-primary ms-2" @onclick="SearchTodobyName"> Search</button>
@@ -50,7 +50,7 @@
                             @* <EditForm Model="todo" FormName="@($"todo-delete-{todo.TodoId}")"
                                       OnValidSubmit=" ()=>DeleteSubmit(todo.TodoId)">
                             </EditForm> *@
-                                <button @onclick="()=>DeleteSubmit(todo.TodoId)" type="submit" class="btn btn-danger me-2 ">Delete</button>
+                                <button @onclick="()=>DeleteSubmit(todo.TodoId)" type="button" class="btn btn-danger me-2 ">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -104,10 +104,10 @@
         NavigationManager.Refresh();
     }
 
-    public void HandleTodoFilter(ChangeEventArgs args)
-    {
-        searchTitle = args.Value?.ToString() ?? string.Empty;
-    }
+    // public void HandleTodoFilter(ChangeEventArgs args)
+    // {
+    //     searchTitle = args.Value?.ToString() ?? string.Empty;
+    // }
 
     private async Task SearchTodobyName()
     {
